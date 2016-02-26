@@ -1,9 +1,11 @@
 # coding=utf-8
 from random import random
 
+from functions.all import isnumeric
+
 
 class Vector:
-    def __init__(self, values):
+    def __init__(self, values=None):
         if values is None:
             self.dim = 0
             self.v = []
@@ -24,11 +26,28 @@ class Vector:
                     result.append(self.v[i] + self.v[i])
             else:
                 raise Exception('Different dimension of vectors!')
-        elif isinstance(other, int) or isinstance(other, float):
+        elif isnumeric(other):
             for i in self.v:
                 l = []
-                isinstance(l, list)
                 result.append(i + other)
+        else:
+            raise Exception('Don`t known type of other')
+        return Vector(result)
+
+    def __sub__(self, other):
+        result = []
+        if isinstance(other, Vector):
+            if self.dim == other.dim:
+                if self.dim == 0:
+                    return self
+                for i in xrange(len(self.v)):
+                    result.append(self.v[i] - self.v[i])
+            else:
+                raise Exception('Different dimension of vectors!')
+        elif isnumeric(other):
+            for i in self.v:
+                l = []
+                result.append(i - other)
         else:
             raise Exception('Don`t known type of other')
         return Vector(result)
@@ -58,8 +77,19 @@ class Vector:
             for i in xrange(self.dim):
                 result += self.v[i] * other.v[i]
             return result
-        elif isinstance(other, int) or isinstance(other, float):
+        elif isnumeric(other):
             return Vector([x * other for x in self])
+
+    def __div__(self, other):
+        if isnumeric(other):
+            return Vector([x / other for x in self])
+        elif isinstance(other, Vector):
+            if self.dim != other.dim:
+                raise Exception('Vectors has different dimensions')
+            result = 0.0
+            for i in xrange(self.dim):
+                result += self.v[i] / other.v[i]
+            return result
 
     def wersor(self):
         length = self.length()
@@ -81,4 +111,4 @@ y = Vector([1, 2, 3])
 print x.wersor()
 # print Vector.random(15).length()
 # print x == y
-print x * y
+print x / y
