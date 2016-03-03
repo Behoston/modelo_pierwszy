@@ -34,6 +34,9 @@ class Vector:
             raise Exception('Don`t known type of other')
         return Vector(result)
 
+    def __radd__(self, other):
+        return self + other
+
     def __sub__(self, other):
         result = []
         if isinstance(other, Vector):
@@ -41,7 +44,7 @@ class Vector:
                 if self.dim == 0:
                     return self
                 for i in xrange(len(self.v)):
-                    result.append(self.v[i] - self.v[i])
+                    result.append(self.v[i] - other.v[i])
             else:
                 raise Exception('Different dimension of vectors!')
         elif isnumeric(other):
@@ -52,12 +55,24 @@ class Vector:
             raise Exception('Don`t known type of other')
         return Vector(result)
 
+    def __rsub__(self, other):
+        return self - other
+
+    def __div__(self, other):
+        if isnumeric(other):
+            l = []
+            for i in self.v:
+                l.append((i + 0.0) / other)
+            return Vector(l)
+        raise Exception('Divide operation allowed only by numeric')
+
     def __eq__(self, other):
         if not isinstance(other, Vector):
             return False
         if self.dim != other.dim:
             return False
         for i in xrange(self.dim):
+            # if (self.v[i] - other.v[i]) > 0.000001:
             if self.v[i] != other.v[i]:
                 return False
         return True
@@ -80,16 +95,8 @@ class Vector:
         elif isnumeric(other):
             return Vector([x * other for x in self])
 
-    def __div__(self, other):
-        if isnumeric(other):
-            return Vector([x / other for x in self])
-        elif isinstance(other, Vector):
-            if self.dim != other.dim:
-                raise Exception('Vectors has different dimensions')
-            result = 0.0
-            for i in xrange(self.dim):
-                result += self.v[i] / other.v[i]
-            return result
+    def __rmul__(self, other):
+        return self * other
 
     def wersor(self):
         length = self.length()
@@ -104,11 +111,3 @@ class Vector:
     @staticmethod
     def random(dim):
         return Vector([random() for i in xrange(dim)])
-
-
-x = Vector([1, 2, 3])
-y = Vector([1, 2, 3])
-print x.wersor()
-# print Vector.random(15).length()
-# print x == y
-print x / y
