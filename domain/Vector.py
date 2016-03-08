@@ -28,7 +28,6 @@ class Vector:
                 raise Exception('Different dimension of vectors!')
         elif isnumeric(other):
             for i in self.v:
-                l = []
                 result.append(i + other)
         else:
             raise Exception('Don`t known type of other')
@@ -72,7 +71,6 @@ class Vector:
         if self.dim != other.dim:
             return False
         for i in xrange(self.dim):
-            # if (self.v[i] - other.v[i]) > 0.000001:
             if self.v[i] != other.v[i]:
                 return False
         return True
