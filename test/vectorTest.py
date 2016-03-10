@@ -57,6 +57,11 @@ class VectorTest(unittest.TestCase):
         result = v / 2
         self.assertEqual(result, Vector([2.5, 3]))
 
+    def testPower(self):
+        v = Vector([2, 2])
+        result = v ** 2
+        self.assertEqual(Vector([4, 4]), result)
+
 
 if __name__ == '__main__':
     unittest.main()

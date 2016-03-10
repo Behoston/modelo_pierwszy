@@ -21,7 +21,8 @@ class Atom:
         self.acceleration = acceleration
         if self.acceleration is None:
             self.acceleration = Vector.random(dim)
-        self.kinetic_energy = self.velocity.length() * self.mass
+        self.kinetic_energy = (self.velocity.length() * self.mass) ** 2
+        self.potential_energy = 0.0
 
     def __str__(self):
         return 'Atom(\n\tdim=' + str(self.dim) + ', \n\tvelocity=' + str(self.velocity) + ', \n\tcoordinates=' + \
@@ -30,11 +31,6 @@ class Atom:
     def __repr__(self):
         return 'Atom[' + str(self.id) + ']'
 
-    def move(self):
-        pass
-
-
-a1 = Atom()
-a2 = Atom()
-print a1
-print a2
+    def change_acc(self, force, time):
+        self.acceleration = (1 / self.mass) * force
+        self.velocity += self.acceleration * time
