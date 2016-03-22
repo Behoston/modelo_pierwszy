@@ -17,6 +17,9 @@ class Vector:
             self.v = [values]
             self.dim = 1
 
+    def __getitem__(self, item):
+        return self.v.__getitem__(item)
+
     def __add__(self, other):
         result = []
         if isinstance(other, Vector):
@@ -49,7 +52,6 @@ class Vector:
                 raise Exception('Different dimension of vectors!')
         elif isnumeric(other):
             for i in self.v:
-                l = []
                 result.append(i - other)
         else:
             raise Exception('Don`t known type of other')
@@ -117,3 +119,7 @@ class Vector:
     @staticmethod
     def random(dim):
         return Vector([random() for i in xrange(dim)])
+
+    @staticmethod
+    def zero(dim):
+        return Vector([0 for i in xrange(dim)])

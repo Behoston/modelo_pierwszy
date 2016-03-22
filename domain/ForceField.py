@@ -2,8 +2,8 @@
 
 
 class ForceField:
-    def __init__(self, time=0.0001):
-        self.time = time
+    def __init__(self):
+        pass
 
     def single_atom_contribution(self, atom):
         pass
