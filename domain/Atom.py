@@ -1,4 +1,6 @@
 # coding=utf8
+from copy import copy
+
 from domain.Vector import Vector
 
 
@@ -12,15 +14,15 @@ class Atom:
         self.dim = dim
         self.velocity = velocity
         if self.velocity is None:
-            self.velocity = Vector.random(dim)
+            self.velocity = Vector.zero(dim)
         self.coordinates = coordinates
         if coordinates is None:
-            self.coordinates = Vector.random(dim) * 10
+            self.coordinates = Vector.zero(dim)
         self.coordinates_minus_1 = Vector.zero(self.dim)
-        self.coordinates_minus_2 = Vector.zero(self.dim)
         self.acceleration = acceleration
         if self.acceleration is None:
-            self.acceleration = Vector.random(dim)
+            self.acceleration = Vector.zero(dim)
+        self.acceleration_minus_1 = Vector.zero(dim)
         self.kinetic_energy = (self.velocity.length() * self.mass) ** 2
         self.potential_energy = 0.0
 
@@ -37,19 +39,18 @@ class Atom:
         return self.id == other.id
 
     def prepare_for_new_step(self):
+        self.acceleration_minus_1 = self.acceleration
         self.acceleration = Vector.zero(self.dim)
         self.potential_energy = 0.0
 
     def change_acc(self, force, potential_energy):
-        self.acceleration = (1.0 / self.mass) * force
+        self.acceleration += (1.0 / self.mass) * force
         self.potential_energy += potential_energy
 
-    def move(self, time):
-        self.velocity += self.acceleration * time
-        self.coordinates_minus_2 = self.coordinates_minus_1
-        self.coordinates_minus_1 = self.coordinates
-        self.coordinates += self.velocity * time
-        self.kinetic_energy = (self.velocity.length() * self.mass) ** 2
+    def move(self, new_velocity, new_coordinates):
+        self.coordinates_minus_1 = copy(self.coordinates)
+        self.coordinates = new_coordinates
+        self.velocity = new_velocity
 
     def to_pdb_line(self):
         section = 'ATOM'.ljust(6)  # 1-6

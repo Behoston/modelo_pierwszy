@@ -27,7 +27,7 @@ class Vector:
                 if self.dim == 0:
                     return self
                 for i in xrange(len(self.v)):
-                    result.append(self.v[i] + self.v[i])
+                    result.append(self.v[i] + other.v[i])
             else:
                 raise Exception('Different dimension of vectors!')
         elif isnumeric(other):
