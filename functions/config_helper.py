@@ -1,7 +1,8 @@
 # coding=utf-8
-from domain.LenardJones import LenardJones
 from domain.MinimumBarierMinimum import MinimumBarierMinimum
 from domain.SoftWall import SoftWall
+
+from domain.forcefield.LenardJones import LenardJones
 
 
 def get_force_field_form_string(force_field_name):

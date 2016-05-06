@@ -1,12 +1,9 @@
 # coding=utf8
-from domain.Atom import Atom
-from domain.ForceField import ForceField
-from domain.Integrator import Integrator
 from domain.SoftWall import SoftWall
-from time import time
+from domain.Verlet import Verlet
 
 from domain.Vector import Vector
-from domain.Verlet import Verlet
+from domain.forcefield.ForceField import ForceField
 
 
 class Simulation:

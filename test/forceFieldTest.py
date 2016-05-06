@@ -2,7 +2,7 @@
 import unittest
 
 from domain.Atom import Atom
-from domain.MinimumBarierMinimum import MinimumBarierMinimum
+from domain.forcefield.MinimumBarierMinimum import MinimumBarierMinimum
 
 
 class ForceFieldTest(unittest.TestCase):
