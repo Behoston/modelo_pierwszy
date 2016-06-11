@@ -2,11 +2,11 @@
 import unittest
 
 from domain.Atom import Atom
-from domain.forcefield.MinimumBarierMinimum import MinimumBarierMinimum
+from domain.forcefield.MinimumBarrierMinimum import MinimumBarrierMinimum
 
 
 class ForceFieldTest(unittest.TestCase):
     def testMBM(self):
         atom = Atom()
-        mbm = MinimumBarierMinimum()
+        mbm = MinimumBarrierMinimum()
         mbm.single_atom_contribution(atom)

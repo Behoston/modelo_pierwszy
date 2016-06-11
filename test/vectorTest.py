@@ -27,9 +27,9 @@ class VectorTest(unittest.TestCase):
         self.assertEqual(result, 12)
 
     def test_multiple_by_number_left(self):
-        v = Vector([2, 25])
+        v = Vector([2.6, 25])
         result = 2 * v
-        self.assertEqual(result, Vector([4, 50]))
+        self.assertEqual(result, Vector([5.2, 50]))
 
     def test_multiple_by_number(self):
         v = Vector([2, 25])
@@ -56,11 +56,6 @@ class VectorTest(unittest.TestCase):
         v = Vector([5, 6])
         result = v / 2
         self.assertEqual(result, Vector([2.5, 3]))
-
-    def testPower(self):
-        v = Vector([2, 2])
-        result = v ** 2
-        self.assertEqual(Vector([4, 4]), result)
 
 
 if __name__ == '__main__':

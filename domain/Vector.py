@@ -99,12 +99,6 @@ class Vector:
     def __rmul__(self, other):
         return self * other
 
-    def __pow__(self, power, modulo=None):
-        result = Vector(copy(self.v))
-        if isinstance(power, int):
-            for i in xrange(power - 1):
-                result *= self
-        return result
 
     def wersor(self):
         length = self.length()

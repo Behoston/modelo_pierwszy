@@ -5,6 +5,9 @@ class ForceField:
     def __init__(self):
         pass
 
+    def how_many_atoms_contribution(self):
+        return 3
+
     def single_atom_contribution(self, atom):
         pass
 
