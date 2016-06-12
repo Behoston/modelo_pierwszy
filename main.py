@@ -27,12 +27,13 @@ except:
 steps = config.getint('main', 'steps')
 step_time = config.getfloat('main', 'step_time')
 spf = config.getint('main', 'spf')
-output_dir = config.get('main', 'output_file')
+output_dir = config.get('main', 'output_dir')
+
+algorithm = get_algorithm(config)
+force_fields = get_force_fields(config)
 
 s = Simulation(atoms, steps=steps, step_time=step_time, dim=dimension, save_step=spf, output=output_dir)
-algorithm = get_algorithm(config)
 s.set_algorithm(algorithm)
-force_fields = get_force_fields(config)
 for force_field in force_fields:
     s.add_force_field(force_field)
 s.run()
