@@ -26,7 +26,6 @@ class Atom:
         if self.acceleration is None:
             self.acceleration = Vector.zero(dim)
         self.acceleration_minus_1 = Vector.zero(dim)
-        self.kinetic_energy = (self.velocity.length() * self.mass) ** 2
         self.potential_energy = 0.0
 
     def __str__(self):
@@ -58,6 +57,9 @@ class Atom:
         self.coordinates_minus_1 = copy(self.coordinates)
         self.coordinates = new_coordinates
         self.velocity = new_velocity
+
+    def get_kinetic_energy(self):
+        return 0.5 * self.mass * self.velocity.length() ** 2
 
     def to_pdb_line(self):
         if not self.het:

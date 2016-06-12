@@ -1,6 +1,6 @@
 # coding=utf-8
 from copy import copy
-from random import random
+from random import random, choice
 
 from functions.all import isnumeric
 
@@ -99,7 +99,6 @@ class Vector:
     def __rmul__(self, other):
         return self * other
 
-
     def wersor(self):
         length = self.length()
         return Vector([x / length for x in self])
@@ -112,7 +111,7 @@ class Vector:
 
     @staticmethod
     def random(dim):
-        return Vector([random() for i in xrange(dim)])
+        return Vector([choice([-1, 1]) * random() for _ in xrange(dim)])
 
     @staticmethod
     def zero(dim):

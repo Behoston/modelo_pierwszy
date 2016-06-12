@@ -1,4 +1,6 @@
 # coding=utf8
+import os
+
 from domain.forcefield.SoftWall import SoftWall
 from domain.algorithm.Verlet import Verlet
 
@@ -6,7 +8,7 @@ from domain.Vector import Vector
 
 
 class Simulation:
-    def __init__(self, atoms, steps=1000, step_time=0.001, dim=3, save_step=10):
+    def __init__(self, atoms, output, steps=1000, step_time=0.001, dim=3, save_step=10):
         self.atoms_count = len(atoms)
         self.atoms = atoms
         self.steps = steps
@@ -14,10 +16,10 @@ class Simulation:
         self.force_fields = []
         self.algorithm = Verlet()
         self.dim = dim
-        self.dump_file = './output/simulation.pdb'
-        with open(self.dump_file, 'w'):
-            # czuszczenie pliku przed kolejną symulacją
-            pass
+        self.output = output
+        self.trajectory_file = './output/' + self.output + '/simulation.pdb'
+        self.potential_energy_file = './output/' + self.output + '/potential_energy.csv'
+        self.kinetic_energy_file = './output/' + self.output + '/kinetic_energy.csv'
         self.step_time = step_time
 
     def add_force_field(self, force_filed=SoftWall()):
@@ -38,20 +40,45 @@ class Simulation:
         return s
 
     def dump(self, step):
-        with open(self.dump_file, 'a') as plik:
-            plik.write('MODEL ' + str(step / self.save_step + 1) + '\n')
+        potential_energy = 0
+        kinetic_energy = 0
+        identifier = str(step / self.save_step + 1)
+        with open(self.trajectory_file, 'a') as plik:
+            plik.write('MODEL ' + identifier + '\n')
             for atom in self.atoms:
                 plik.write(atom.to_pdb_line() + '\n')
+                potential_energy += atom.potential_energy
+                kinetic_energy += atom.get_kinetic_energy()
             plik.write('TER\n')
+        with open(self.kinetic_energy_file, 'a') as f:
+            f.write(identifier + ',' + str(kinetic_energy) + '\n')
+        with open(self.potential_energy_file, 'a') as f:
+            f.write(identifier + ',' + str(potential_energy) + '\n')
 
     def initialize(self):
-        with open(self.dump_file, 'a') as plik:
-            plik.write('MODEL 0\n')
+        """
+        Saving initial state (clears previous files)
+        and creating output dir
+        """
+        try:
+            os.makedirs('./output/' + self.output)
+        except:
+            pass
+        with open(self.trajectory_file, 'w') as f:
+            f.write('MODEL 0\n')
             for atom in self.atoms:
-                plik.write(atom.to_pdb_line() + '\n')
-            plik.write('TER\n')
+                f.write(atom.to_pdb_line() + '\n')
+            f.write('TER\n')
+        potential_energy = 0
+        kinetic_energy = 0
         for atom in self.atoms:
-            atom.acceleration = Vector.zero(self.dim)
+            potential_energy += atom.potential_energy
+            kinetic_energy += atom.get_kinetic_energy()
+            atom.acceleration = Vector.random(self.dim) * 20
+        with open(self.kinetic_energy_file, 'w') as f:
+            f.write('0,' + str(kinetic_energy) + '\n')
+        with open(self.potential_energy_file, 'w') as f:
+            f.write('0,' + str(potential_energy) + '\n')
 
     def run(self):
         if len(self.force_fields) == 0:
