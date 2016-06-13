@@ -8,11 +8,12 @@ from domain.Vector import Vector
 
 
 class Simulation:
-    def __init__(self, atoms, output, steps=1000, step_time=0.001, dim=3, save_step=10):
+    def __init__(self, atoms, output, steps=1000, step_time=0.001, dim=3, save_step=10, save_energy_step=1):
         self.atoms_count = len(atoms)
         self.atoms = atoms
         self.steps = steps
         self.save_step = save_step
+        self.save_energy_step = save_energy_step
         self.force_fields = []
         self.algorithm = Verlet()
         self.dim = dim
@@ -40,16 +41,21 @@ class Simulation:
         return s
 
     def dump(self, step):
-        potential_energy = 0
-        kinetic_energy = 0
+
         identifier = str(step / self.save_step + 1)
         with open(self.trajectory_file, 'a') as plik:
             plik.write('MODEL ' + identifier + '\n')
             for atom in self.atoms:
                 plik.write(atom.to_pdb_line() + '\n')
-                potential_energy += atom.potential_energy
-                kinetic_energy += atom.get_kinetic_energy()
             plik.write('TER\n')
+
+    def dump_energy(self, step):
+        identifier = str(step / self.save_energy_step + 1)
+        potential_energy = 0
+        kinetic_energy = 0
+        for atom in self.atoms:
+            potential_energy += atom.potential_energy
+            kinetic_energy += atom.get_kinetic_energy()
         with open(self.kinetic_energy_file, 'a') as f:
             f.write(identifier + ',' + str(kinetic_energy) + '\n')
         with open(self.potential_energy_file, 'a') as f:
@@ -100,5 +106,7 @@ class Simulation:
                                             force_field.three_atoms_contribution(
                                                 self.atoms[a1], self.atoms[a2], self.atoms[a3])
             self.algorithm.make_step(self.atoms, self.step_time)
+            if step % self.save_energy_step == 0:
+                self.dump_energy(step)
             if step % self.save_step == 0:
                 self.dump(step)

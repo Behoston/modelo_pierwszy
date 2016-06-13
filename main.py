@@ -26,13 +26,17 @@ except:
     atoms = [Atom(dim=dimension, coordinates=Vector.random(dimension) * 10) for _ in xrange(number_of_atoms)]
 steps = config.getint('main', 'steps')
 step_time = config.getfloat('main', 'step_time')
-spf = config.getint('main', 'spf')
-output_dir = config.get('main', 'output_dir')
-
+spf = config.getint('output', 'spf')
+output_dir = config.get('output', 'output_dir')
+try:
+    spe = config.getint('output', 'spe')
+except:
+    spe = 1
 algorithm = get_algorithm(config)
 force_fields = get_force_fields(config)
 
-s = Simulation(atoms, steps=steps, step_time=step_time, dim=dimension, save_step=spf, output=output_dir)
+s = Simulation(atoms, steps=steps, step_time=step_time, dim=dimension, save_step=spf, output=output_dir,
+               save_energy_step=spe)
 s.set_algorithm(algorithm)
 for force_field in force_fields:
     s.add_force_field(force_field)
