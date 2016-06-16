@@ -7,9 +7,9 @@ def draw_potential_energy_plot(steps, potential_energy, output_dir):
     plt.ylabel('potential energy')
     plt.xlabel('step')
     plt.grid(True),
-    plt.plot(steps, potential_energy)
-    plt.savefig(output_dir + '/potential_energy.png')
-    plt.close()
+    plt.plot(steps, potential_energy, color='blue', label='Potential Energy')
+    # plt.savefig(output_dir + '/potential_energy.png')
+    # plt.close()
 
 
 def draw_kinetic_energy_plot(steps, kinetic_energy, output_dir):
@@ -17,9 +17,9 @@ def draw_kinetic_energy_plot(steps, kinetic_energy, output_dir):
     plt.ylabel('kinetic energy')
     plt.xlabel('step')
     plt.grid(True),
-    plt.plot(steps, kinetic_energy)
-    plt.savefig(output_dir + '/kinetic_energy.png')
-    plt.close()
+    plt.plot(steps, kinetic_energy, color='red', label='Kinetic Energy')
+    # plt.savefig(output_dir + '/kinetic_energy.png')
+    # plt.close()
 
 
 def draw_energy_plot(steps, energy, output_dir):
@@ -27,9 +27,9 @@ def draw_energy_plot(steps, energy, output_dir):
     plt.ylabel('energy')
     plt.xlabel('step')
     plt.grid(True),
-    plt.plot(steps, energy)
-    plt.savefig(output_dir + '/energy.png')
-    plt.close()
+    plt.plot(steps, energy, color='green', label='Energy')
+    # plt.savefig(output_dir + '/energy.png')
+    # plt.close()
 
 
 def draw(input_dir):
@@ -55,3 +55,7 @@ def draw(input_dir):
     draw_potential_energy_plot(steps, potential_energy, input_dir)
     draw_kinetic_energy_plot(steps, kinetic_energy, input_dir)
     draw_energy_plot(steps, energy, input_dir)
+    plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.05),
+               fancybox=True, shadow=True, ncol=5)
+    plt.savefig(input_dir + '/energy.png')
+    plt.close()

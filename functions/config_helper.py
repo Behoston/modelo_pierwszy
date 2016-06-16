@@ -1,10 +1,13 @@
 # coding=utf-8
+from domain.Atom import Atom
+from domain.Vector import Vector
 from domain.algorithm.LeapFrog import LeapFrog
 from domain.algorithm.VelocityVerlet import VelocityVerlet
 from domain.algorithm.Verlet import Verlet
+from domain.forcefield.LenardJones import LenardJones
 from domain.forcefield.MinimumBarrierMinimum import MinimumBarrierMinimum
 from domain.forcefield.SoftWall import SoftWall
-from domain.forcefield.LenardJones import LenardJones
+from functions.PdbHelper import pdb_file_to_atoms
 
 
 def get_force_fields(config):
@@ -129,3 +132,40 @@ def get_algorithm(config):
         # default
         print '\tUnrecognized algorithm, using Verlet'
         return Verlet()
+
+
+def get_atoms(config, dimension):
+    try:
+        input_file = config.get('main', 'input_file')
+        return pdb_file_to_atoms(input_file, dimension)
+    except:
+        number_of_atoms = config.getint('main', 'number_of_atoms')
+        return [Atom(dim=dimension, coordinates=Vector.random(dimension) * 10) for _ in xrange(number_of_atoms)]
+
+
+def get_dimension(config):
+    return config.getint('main', 'dimension')
+
+
+def get_steps(config):
+    return config.getint('main', 'steps')
+
+
+def get_step_time(config):
+    return config.getfloat('main', 'step_time')
+
+
+def get_steps_per_frame(config):
+    return config.getint('output', 'spf')
+
+
+def get_output_dir(config):
+    return config.get('output', 'output_dir')
+
+
+def get_steps_per_energy_dump(config):
+    try:
+        spe = config.getint('output', 'spe')
+    except:
+        spe = 1
+    return spe

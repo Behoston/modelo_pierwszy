@@ -21,13 +21,13 @@ class MinimumBarrierMinimum(ForceField):
         for coord in atom.coordinates:
             # potential energy
             first = -self.a * e ** (-self.b * (coord - 1) ** 2)
-            second = - self.c * e ** (-int((coord + 1) ** 2))
+            second = - self.c * e ** (-(coord + 1 ** 2))
             third = self.d * coord ** 4
             potential_energy = first + second + third
             atom.add_potential_energy(potential_energy)
             # force
-            first_part = 2 * self.a * self.b * (coord - 1) * e ** (-self.b * (coord - 1) ** 2)
-            second_part = 2 * self.c * (coord + 1) * e ** (-(coord + 1) ** 2)
-            third_part = 4 * self.d * coord ** 3
+            first_part = 2.0 * self.a * self.b * (coord - 1) * e ** (-self.b * (coord - 1) ** 2)
+            second_part = 2.0 * self.c * (coord + 1) * e ** (-(coord + 1) ** 2)
+            third_part = 4.0 * self.d * coord ** 3
             force.append(-(first_part + second_part + third_part))
         atom.change_acc(Vector(force))

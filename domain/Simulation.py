@@ -1,10 +1,8 @@
 # coding=utf8
 import os
 
-from domain.forcefield.SoftWall import SoftWall
 from domain.algorithm.Verlet import Verlet
-
-from domain.Vector import Vector
+from domain.forcefield.SoftWall import SoftWall
 
 
 class Simulation:
@@ -80,7 +78,7 @@ class Simulation:
         for atom in self.atoms:
             potential_energy += atom.potential_energy
             kinetic_energy += atom.get_kinetic_energy()
-            atom.acceleration = Vector.random(self.dim) * 20
+            # atom.acceleration = Vector.random(self.dim) * 20
         with open(self.kinetic_energy_file, 'w') as f:
             f.write('0,' + str(kinetic_energy) + '\n')
         with open(self.potential_energy_file, 'w') as f:

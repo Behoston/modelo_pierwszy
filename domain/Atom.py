@@ -29,10 +29,8 @@ class Atom:
         self.potential_energy = 0.0
 
     def __str__(self):
-        return 'Atom(\n\tdim=' + str(self.dim) + ', \n\tvelocity=' + str(
-            self.velocity) + ', \n\tcoordinates=' + \
-               str(self.coordinates) + ', \n\tacceleration=' + str(
-            self.acceleration) + '\n)'
+        return 'Atom(\n\tdim=' + str(self.dim) + ', \n\tvelocity=' + str(self.velocity) + ', \n\tcoordinates=' + \
+               str(self.coordinates) + ', \n\tacceleration=' + str(self.acceleration) + '\n)'
 
     def __repr__(self):
         return 'Atom[' + str(self.id) + ']'

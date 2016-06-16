@@ -1,5 +1,4 @@
 # coding=utf-8
-from copy import copy
 from random import random, choice
 
 from functions.all import isnumeric
@@ -115,4 +114,4 @@ class Vector:
 
     @staticmethod
     def zero(dim):
-        return Vector([0 for i in xrange(dim)])
+        return Vector([0 for _ in xrange(dim)])

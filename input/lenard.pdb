@@ -1,0 +1,5 @@
+MODEL     1
+HETATM    1  C   ALA A   1      00.500  10.134  -0.504  0.00  0.00           C
+HETATM    1  C   ALA A   1      03.500  10.134  -0.504  0.00  0.00           C
+TER
+ENDMDL

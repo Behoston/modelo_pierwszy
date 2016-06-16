@@ -17,8 +17,8 @@ class VectorTest(unittest.TestCase):
         self.assertEqual(v.v, coordinates)
 
     def test_length(self):
-        v = Vector([0, 5])
-        self.assertEqual(v.length(), 5)
+        v = Vector([1, 5, 7.4])
+        self.assertAlmostEqual(v.length(), 8.986656775, 9)
 
     def test_multiple_by_vector(self):
         v1 = Vector([2, 2])
@@ -42,10 +42,10 @@ class VectorTest(unittest.TestCase):
         self.assertEqual(n * v, v * n)
 
     def test_subtract_vector(self):
-        v1 = Vector([2, 2])
-        v2 = Vector([1, -15])
+        v1 = Vector([2, 2, 5])
+        v2 = Vector([1, -15, -12])
         result = v1 - v2
-        self.assertEqual(result, Vector([1, 17]))
+        self.assertEqual(result, Vector([1, 17, 17]))
 
     def test_subtract_number(self):
         v = Vector([5, 6, 7, 8])
@@ -53,9 +53,9 @@ class VectorTest(unittest.TestCase):
         self.assertEqual(result, Vector([1.9, 2.9, 3.9, 4.9]))
 
     def test_divide(self):
-        v = Vector([5, 6])
+        v = Vector([5, 6, 8.1])
         result = v / 2
-        self.assertEqual(result, Vector([2.5, 3]))
+        self.assertEqual(result, Vector([2.5, 3, 4.05]))
 
 
 if __name__ == '__main__':
