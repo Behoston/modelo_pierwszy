@@ -18,16 +18,20 @@ class MinimumBarrierMinimum(ForceField):
 
     def single_atom_contribution(self, atom):
         force = []
-        for coord in atom.coordinates:
-            # potential energy
-            first = -self.a * e ** (-self.b * (coord - 1) ** 2)
-            second = - self.c * e ** (-(coord + 1 ** 2))
-            third = self.d * coord ** 4
-            potential_energy = first + second + third
-            atom.add_potential_energy(potential_energy)
-            # force
-            first_part = 2.0 * self.a * self.b * (coord - 1) * e ** (-self.b * (coord - 1) ** 2)
-            second_part = 2.0 * self.c * (coord + 1) * e ** (-(coord + 1) ** 2)
-            third_part = 4.0 * self.d * coord ** 3
-            force.append(-(first_part + second_part + third_part))
+        if atom.dim != 1:
+            raise Exception("Potential work only for 1D")
+        coord = atom.coordinates[0]
+
+        # potential energy
+        first = -self.a * e ** (-self.b * (coord - 1) ** 2)
+        second = - self.c * e ** (-(coord + 1) ** 2)
+        third = +self.d * coord ** 4
+        potential_energy = first + second + third
+        atom.add_potential_energy(potential_energy)
+
+        # force
+        first_part = 2.0 * self.a * self.b * (coord - 1) * e ** (-self.b * (coord - 1) ** 2)
+        second_part = 2.0 * self.c * (coord + 1) * e ** (-(coord + 1) ** 2)
+        third_part = 4.0 * self.d * coord ** 3
+        force.append(-(first_part + second_part + third_part))
         atom.change_acc(Vector(force))
