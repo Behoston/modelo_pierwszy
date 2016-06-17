@@ -1,7 +1,9 @@
 # coding=utf8
 import os
+from copy import copy
 
 from domain.algorithm.Verlet import Verlet
+from domain.forcefield.LenardJones import LenardJones
 from domain.forcefield.SoftWall import SoftWall
 
 
@@ -23,6 +25,10 @@ class Simulation:
 
     def add_force_field(self, force_filed=SoftWall()):
         self.force_fields.append(force_filed)
+        if isinstance(force_filed, LenardJones):
+            for i in xrange(1, self.atoms_count):
+                self.atoms[i].coordinates = self.atoms[i - 1].coordinates - 1.0
+                self.atoms[i].coordinates_minus_1 = copy(self.atoms[i].coordinates)
 
     def set_algorithm(self, algorithm=Verlet()):
         self.algorithm = algorithm
@@ -39,7 +45,6 @@ class Simulation:
         return s
 
     def dump(self, step):
-
         identifier = str(step / self.save_step + 1)
         with open(self.trajectory_file, 'a') as plik:
             plik.write('MODEL ' + identifier + '\n')
@@ -78,7 +83,6 @@ class Simulation:
         for atom in self.atoms:
             potential_energy += atom.potential_energy
             kinetic_energy += atom.get_kinetic_energy()
-            # atom.acceleration = Vector.random(self.dim) * 20
         with open(self.kinetic_energy_file, 'w') as f:
             f.write('0,' + str(kinetic_energy) + '\n')
         with open(self.potential_energy_file, 'w') as f:
