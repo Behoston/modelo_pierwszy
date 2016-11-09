@@ -1,4 +1,12 @@
 # modelo_pierwszy
-Pierwszy projekt zaliczeniowy z przedmiotu Modelowanie Molekularne 2
-Pewnie cudów nie będzie ale staram się nie robić syfu :E
-Może komuś się przyda jako przykład bo się zamierzam przyłożyć
+First Molecular Modeling 2 project for atoms in forcefield simmulations.
+
+Availiable foce fields (Potentials):
+* Lennard Johnson
+* Minimum-Barrier-Minimum
+* Soft Wall
+
+Availiable integration algorithms:
+* Leap Frog
+* Verlet
+* Velocity Verlet
