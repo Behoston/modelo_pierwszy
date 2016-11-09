@@ -1,4 +1,4 @@
-# modelo_pierwszy
+# Molecular Modeling 2: model 1
 First Molecular Modeling 2 project for atoms in forcefield simmulations.
 
 Availiable foce fields (Potentials):
